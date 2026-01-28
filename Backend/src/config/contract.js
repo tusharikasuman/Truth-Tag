@@ -1,28 +1,29 @@
-import { ethers } from "ethers";
-import { CONTRACT_ADDRESS, CONTRACT_ABI } from "../config/contract.js";
+// ❌ yahan koi import NAHI hoga
 
-const provider = new ethers.JsonRpcProvider(
-  "http://127.0.0.1:8545"
-); 
-// 👆 Remix VM / local demo ke liye
+export const CONTRACT_ADDRESS = "0x752D9ac8Fd9E67CC415fa3a070e574Fb2640a0E5";
 
-const PRIVATE_KEY = "0xYOUR_PRIVATE_KEY";
-const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
-
-const contract = new ethers.Contract(
-  CONTRACT_ADDRESS,
-  CONTRACT_ABI,
-  wallet
-);
-
-export const storeOnChain = async (hash, aiGenerated, confidence) => {
-  const tx = await contract.storeRecord(
-    hash,
-    aiGenerated,
-    confidence
-  );
-
-  await tx.wait();
-
-  return tx.hash;
-};
+export const CONTRACT_ABI = [
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_contentHash",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bool",
+        "name": "_aiGenerated",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_confidence",
+        "type": "uint256"
+      }
+    ],
+    "name": "storeRecord",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+];
