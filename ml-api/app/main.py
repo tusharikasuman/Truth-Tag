@@ -1,13 +1,13 @@
 from fastapi import FastAPI, File, UploadFile
-from .model import predict, load_model
+from .model import predict, load_models
 
 app = FastAPI(title="TruthTag ML API", version="1.0.0")
 
 @app.on_event("startup")
 async def startup_event():
-    """Load ML model on startup"""
+    """Load ML models on startup"""
     print("🚀 Starting ML API...")
-    load_model()
+    load_models()
 
 @app.post("/analyze")
 async def analyze(file: UploadFile = File(...)):

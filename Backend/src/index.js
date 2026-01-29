@@ -1,21 +1,17 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-
-console.log("🔍 Starting server initialization...");
-
+import { connectDB } from "./config/db.js";
+import authRoute from "./routes/auth.js";
 import verifyRoute from "./routes/verify.js";
-
-console.log("✅ verifyRoute imported successfully");
 
 dotenv.config();
 
-console.log("✅ dotenv loaded");
-
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-console.log("✅ express app created");
+// Connect to MongoDB
+connectDB();
 
 // 🔥 log every request (debug)
 app.use((req, res, next) => {
@@ -37,7 +33,10 @@ app.get("/health", (req, res) => {
   res.json({ status: "healthy", timestamp: new Date().toISOString() });
 });
 
-// verify route
+// Auth routes
+app.use("/auth", authRoute);
+
+// Verify route
 app.use("/verify", verifyRoute);
 
 // global error handler
